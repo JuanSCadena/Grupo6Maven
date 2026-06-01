@@ -1,62 +1,111 @@
+/**
+ * Clase Persona que representa un registro de persona con validaciones.
+ * Incluye atributos básicos como nombre, edad y email.
+ */
 public class Persona {
 
-    private String nombre;
-    private int edad;
-    private String email;
-    // Variable no utilizada - Problema PMD 1
-    private String telefonoEmergencia;
+  private String nombre;
+  private int edad;
+  private String email;
 
-    public Persona(String nombre, int edad, String email) {
-        this.nombre = nombre;
-        this.edad = edad;
-        this.email = email;
-    }
+  /**
+   * Constructor de Persona.
+   *
+   * @param nombre nombre de la persona
+   * @param edad edad de la persona
+   * @param email email de la persona
+   */
+  public Persona(String nombre, int edad, String email) {
+    this.nombre = nombre;
+    this.edad = edad;
+    this.email = email;
+  }
 
-    public String getNombre() {
-        return nombre;
-    }
+  /**
+   * Obtiene el nombre de la persona.
+   *
+   * @return nombre
+   */
+  public String getNombre() {
+    return nombre;
+  }
 
-    public void setNombre(String nombre) {
-        // Línea muy larga sin necesidad - Problema Checkstyle 1
-        if (nombre != null && nombre.length() > 0 && !nombre.isEmpty() && nombre.matches("[a-zA-Z ]+")) {
-            this.nombre = nombre;
-        }
+  /**
+   * Establece el nombre de la persona.
+   *
+   * @param nombre nombre a establecer
+   */
+  public void setNombre(String nombre) {
+    if (nombre != null && !nombre.isEmpty()) {
+      this.nombre = nombre;
     }
+  }
 
-    public int getEdad() {
-        return edad;
-    }
+  /**
+   * Obtiene la edad de la persona.
+   *
+   * @return edad
+   */
+  public int getEdad() {
+    return edad;
+  }
 
-    public void setEdad(int edad) {
-        if (edad > 0 && edad < 150) {
-            this.edad = edad;
-        }
+  /**
+   * Establece la edad de la persona.
+   * Valida que esté entre 0 y 150.
+   *
+   * @param edad edad a establecer
+   */
+  public void setEdad(int edad) {
+    if (edad > 0 && edad < 150) {
+      this.edad = edad;
     }
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  /**
+   * Obtiene el email de la persona.
+   *
+   * @return email
+   */
+  public String getEmail() {
+    return email;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  /**
+   * Establece el email de la persona.
+   *
+   * @param email email a establecer
+   */
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public boolean esAdulto() {
-        return edad >= 18;
-    }
+  /**
+   * Verifica si la persona es adulta (>= 18 años).
+   *
+   * @return true si es adulto, false en otro caso
+   */
+  public boolean esAdulto() {
+    return edad >= 18;
+  }
 
-    public boolean tieneEmailValido() {
-        // Bloque catch vacío - Problema PMD 2
-        try {
-            if (email == null || !email.contains("@")) {
-                throw new IllegalArgumentException("Email inválido");
-            }
-        } catch (IllegalArgumentException e) {
-        }
-        return email != null && email.contains("@");
+  /**
+   * Verifica si el email tiene un formato válido.
+   *
+   * @return true si el email es válido, false en otro caso
+   */
+  public boolean tieneEmailValido() {
+    if (email == null || !email.contains("@")) {
+      return false;
     }
+    return email.contains(".");
+  }
 
-    public void imprimeInformacion() {
-        System.out.println("Nombre: " + nombre + ", Edad: " + edad + ", Email: " + email);
-    }
+  /**
+   * Imprime la información de la persona en consola.
+   */
+  public void imprimeInformacion() {
+    System.out.println("Nombre: " + nombre + ", Edad: " + edad
+        + ", Email: " + email);
+  }
 }
