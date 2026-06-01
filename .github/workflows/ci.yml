@@ -48,9 +48,6 @@ jobs:
           echo "PMD violations found:"
           grep -o '<violation' target/pmd.xml | wc -l
           echo "violations total"
-          echo ""
-          echo "Detailed PMD violations:"
-          grep '<violation' target/pmd.xml | head -20
         fi
 
     - name: ✅ Display Checkstyle Report
@@ -60,9 +57,6 @@ jobs:
           echo "Checkstyle violations found:"
           grep -o '<error' target/checkstyle-result.xml | wc -l
           echo "violations total"
-          echo ""
-          echo "Sample violations:"
-          grep '<error' target/checkstyle-result.xml | head -10
         fi
 
     - name: 📁 Upload JaCoCo Report
@@ -89,12 +83,10 @@ jobs:
         path: target/checkstyle-result.xml
         retention-days: 30
 
-    - name: 📝 Generate Summary Comment
+    - name: 📝 Generate Summary
       if: always()
       run: |
         echo "## 📊 Métricas de Calidad - Build Summary" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "### ✅ Pipeline Ejecutado Exitosamente" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "**Etapas completadas:**" >> $GITHUB_STEP_SUMMARY
         echo "- ✅ Construcción del proyecto" >> $GITHUB_STEP_SUMMARY
@@ -102,18 +94,3 @@ jobs:
         echo "- ✅ Generación de métricas JaCoCo" >> $GITHUB_STEP_SUMMARY
         echo "- ✅ Análisis PMD" >> $GITHUB_STEP_SUMMARY
         echo "- ✅ Análisis Checkstyle" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "### 📥 Artefactos Disponibles" >> $GITHUB_STEP_SUMMARY
-        echo "- JaCoCo Coverage Report" >> $GITHUB_STEP_SUMMARY
-        echo "- PMD Analysis Report (XML)" >> $GITHUB_STEP_SUMMARY
-        echo "- Checkstyle Report (XML)" >> $GITHUB_STEP_SUMMARY
-
-      - name: Subir reporte PMD
-        if: always()
-        uses: actions/upload-artifact@v6
-        with:
-          name: pmd-report
-          if-no-files-found: warn
-          path: |
-            target/site/pmd.html
-            target/pmd.xml
